@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node server.ts",
     "dev": "clear && set NODE_ENV=DEVELOPMENT && nodemon server.ts",
-    "prod": "set NODE_ENV=PRODUCTION && nodemon server.ts"
+    "prod": "set NODE_ENV=PRODUCTION && nodemon server.ts",
+    "seeder": "clear && cd utils && ts-node seeder.ts"
   },
   "keywords": [],
   "author": "MichRad",
