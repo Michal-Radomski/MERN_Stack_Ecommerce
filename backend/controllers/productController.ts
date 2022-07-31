@@ -11,11 +11,17 @@ exports.newProduct = async (req: Request, res: Response) => {
   });
 };
 
-exports.getProducts = (req: Request, res: Response, _next: NextFunction) => {
+// Get All Products => /api/v1/products
+exports.getProducts = async (req: Request, res: Response, _next: NextFunction) => {
   const {ip} = req;
   console.log({ip});
+
+  const products = await Product.find();
+
   res.status(200).json({
     success: true,
-    message: "This route will show all products in database",
+    // message: "This route will show all products in database",
+    count: products.length,
+    products: products,
   });
 };
