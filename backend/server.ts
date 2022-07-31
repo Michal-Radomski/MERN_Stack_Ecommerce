@@ -2,11 +2,15 @@ export {};
 const dotenv = require("dotenv");
 
 const app = require("./app");
+const connectDataBase = require("./config/database");
 
 // Setting Up Config File
 dotenv.config({path: "./config/config.env"});
 
 const port = (process.env.PORT || 5000) as number;
+
+// Connect to the DB
+connectDataBase();
 
 app.listen(port, () => {
   console.log(`Server is listening at http://localhost:${port} in ${process.env.NODE_ENV} mode`);
