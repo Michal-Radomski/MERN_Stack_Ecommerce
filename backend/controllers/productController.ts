@@ -25,3 +25,20 @@ exports.getProducts = async (req: Request, res: Response, _next: NextFunction) =
     products: products,
   });
 };
+
+// Get Single Product Details   =>   /api/v1/product/:id
+exports.getSingleProduct = async (req: Request, res: Response) => {
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    return res.status(404).json({
+      success: false,
+      message: "Product Not Found",
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    product: product,
+  });
+};
