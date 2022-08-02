@@ -1,6 +1,7 @@
 import {Request, Response, NextFunction} from "express";
 
 const Product = require("../models/product");
+const ErrorHandler = require("../utils/errorHandler");
 
 // Create a New Product => /api/v1/admin/product/new
 exports.newProduct = async (req: Request, res: Response) => {
@@ -27,14 +28,15 @@ exports.getProducts = async (req: Request, res: Response, _next: NextFunction) =
 };
 
 // Get Single Product Details   =>   /api/v1/product/:id
-exports.getSingleProduct = async (req: Request, res: Response) => {
+exports.getSingleProduct = async (req: Request, res: Response, next: NextFunction) => {
   const product = await Product.findById(req.params.id);
-
+  // console.log({product});
   if (!product) {
-    return res.status(404).json({
-      success: false,
-      message: "Product Not Found",
-    });
+    // return res.status(404).json({
+    //   success: false,
+    //   message: "Product Not Found",
+    // });
+    return next(new ErrorHandler("Product Not Found", 404));
   }
 
   res.status(200).json({
