@@ -20,6 +20,7 @@ exports.getProducts = catchAsyncErrors(async (req: Request, res: Response) => {
   console.log({ip});
 
   const resPerPage = 4;
+  const productsCount = await Product.countDocuments();
 
   const apiFeatures = new APIFeatures(Product.find(), req.query).search().filter().pagination(resPerPage);
   // const products = await Product.find();
@@ -29,6 +30,7 @@ exports.getProducts = catchAsyncErrors(async (req: Request, res: Response) => {
     success: true,
     // message: "This route will show all products in database",
     count: products.length,
+    productsCount: productsCount,
     products: products,
   });
 });
