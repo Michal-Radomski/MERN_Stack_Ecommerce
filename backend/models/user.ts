@@ -1,6 +1,9 @@
+import {NextFunction} from "express";
+
 export {};
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -43,3 +46,12 @@ const userSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("User", userSchema);
+
+// Encrypting password before saving user
+userSchema.pre("save", async function (this: typeof userSchema, next: NextFunction) {
+  if (!this.isModified("password")) {
+    next();
+  }
+
+  this.password = await bcrypt.hash(this.password, 10);
+});
