@@ -30,3 +30,13 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req: CustomRequest, _res: 
 
   next();
 });
+
+// Handling users roles
+exports.authorizeRoles = (...roles: ((role: string) => string)[]) => {
+  return (req: CustomRequest, _res: Response, next: NextFunction) => {
+    if (!roles.includes(req.user.role)) {
+      return next(new ErrorHandler(`Role (${req.user.role}) is not allowed to access this resource`, 403));
+    }
+    next();
+  };
+};
