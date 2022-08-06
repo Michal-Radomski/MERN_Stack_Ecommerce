@@ -15,8 +15,11 @@ interface CustomRequest extends Request {
 
 // Checks if user is authenticated or not
 exports.isAuthenticatedUser = catchAsyncErrors(async (req: CustomRequest, _res: Response, next: NextFunction) => {
+  // const {cookies} = req;
+  // console.log({cookies});
+
   const {token} = req.cookies;
-  console.log({token});
+  // console.log({token});
 
   if (!token) {
     return next(new ErrorHandler("Login first to access this resource.", 401));
