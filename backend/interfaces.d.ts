@@ -1,6 +1,7 @@
 // Types and Interfaces
 
 export interface User {
+  role(role: string);
   getJwtToken(): () => void;
   name: string;
   email: string;
