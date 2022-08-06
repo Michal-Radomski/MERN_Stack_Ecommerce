@@ -1,5 +1,6 @@
 export {};
 import {Request, Response, NextFunction} from "express";
+const crypto = require("crypto");
 
 const User = require("../models/user");
 const ErrorHandler = require("../utils/errorHandler");
@@ -102,6 +103,37 @@ exports.forgotPassword = catchAsyncErrors(async (req: Request, res: Response, ne
 
     return next(new ErrorHandler(error.message, 500));
   }
+});
+
+// Reset Password   =>  /api/v1/password/reset/:token
+exports.resetPassword = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+  // Hash URL token
+  const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
+  // console.log({resetPasswordToken});
+
+  const user = await User.findOne({
+    resetPasswordToken: resetPasswordToken,
+    resetPasswordExpire: {$gt: Date.now()}, // gt => greater than
+  });
+  // console.log({user});
+
+  if (!user) {
+    return next(new ErrorHandler("Password reset token is invalid or has been expired", 400));
+  }
+
+  if (req.body.password !== req.body.confirmPassword) {
+    return next(new ErrorHandler("Password does not match", 400));
+  }
+
+  // Setup new password
+  user.password = req.body.password;
+
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  await user.save();
+
+  sendToken(user, 200, res);
 });
 
 // Logout user   =>   /api/v1/logout
