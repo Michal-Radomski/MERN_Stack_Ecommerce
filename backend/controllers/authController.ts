@@ -4,6 +4,7 @@ import {Request, Response, NextFunction} from "express";
 const User = require("../models/user");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
+const sendToken = require("../utils/jwtToken");
 
 // Register a User -> /api/v1/register
 exports.registerUser = catchAsyncErrors(async (req: Request, res: Response, _next: NextFunction) => {
@@ -14,18 +15,19 @@ exports.registerUser = catchAsyncErrors(async (req: Request, res: Response, _nex
     email: email,
     password: password,
     avatar: {
-      public_id: "",
-      url: "",
+      public_id: "michal123",
+      url: "https://www.test.com.pl/test1.png",
     },
   });
 
-  const token = user.getJwtToken();
+  // const token = user.getJwtToken();
 
-  res.status(201).json({
-    success: true,
-    // user: user,
-    token: token,
-  });
+  // res.status(201).json({
+  //   success: true,
+  //   // user: user,
+  //   token: token,
+  // });
+  sendToken(user, 200, res);
 });
 
 // Login User  =>  /api/v1/login
@@ -51,10 +53,11 @@ exports.loginUser = catchAsyncErrors(async (req: Request, res: Response, next: N
     return next(new ErrorHandler("Invalid Email or Password", 401));
   }
 
-  const token = user.getJwtToken();
+  // const token = user.getJwtToken();
 
-  res.status(200).json({
-    success: true,
-    token: token,
-  });
+  // res.status(200).json({
+  //   success: true,
+  //   token: token,
+  // });
+  sendToken(user, 200, res);
 });
