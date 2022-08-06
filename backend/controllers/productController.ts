@@ -4,9 +4,16 @@ const Product = require("../models/product");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const APIFeatures = require("../utils/apiFeatures");
+import {User} from "../interfaces";
+
+interface CustomRequest extends Request {
+  user: User;
+}
 
 // Create a New Product => /api/v1/admin/product/new
-exports.newProduct = catchAsyncErrors(async (req: Request, res: Response) => {
+exports.newProduct = catchAsyncErrors(async (req: CustomRequest, res: Response) => {
+  req.body.user = req.user.id;
+
   const product = await Product.create(req.body);
   res.status(201).json({
     success: true,
