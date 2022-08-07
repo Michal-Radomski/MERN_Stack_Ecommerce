@@ -168,7 +168,7 @@ exports.getUserProfile = catchAsyncErrors(async (req: CustomRequest, res: Respon
 // Update / Change password   =>  /api/v1/password/update
 exports.updatePassword = catchAsyncErrors(async (req: CustomRequest, res: Response, next: NextFunction) => {
   const user = await User.findById(req.user.id).select("+password");
-  console.log({user});
+  // console.log({user});
 
   // Check previous user password
   const isMatched = await user.comparePassword(req.body.oldPassword);
@@ -180,4 +180,25 @@ exports.updatePassword = catchAsyncErrors(async (req: CustomRequest, res: Respon
   await user.save();
 
   sendToken(user, 200, res);
+});
+
+// Update user profile   =>   /api/v1/me/update
+exports.updateProfile = catchAsyncErrors(async (req: CustomRequest, res: Response) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+  // console.log({newUserData});
+
+  //TODO: Update avatar
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+  // console.log({user});
+
+  res.status(200).json({
+    success: true,
+  });
 });
