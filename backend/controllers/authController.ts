@@ -202,3 +202,30 @@ exports.updateProfile = catchAsyncErrors(async (req: CustomRequest, res: Respons
     success: true,
   });
 });
+
+//- Admin Routes
+// Get all users   =>   /api/v1/admin/users
+exports.allUsers = catchAsyncErrors(async (_req: Request, res: Response) => {
+  const users = await User.find();
+  // console.log({users});
+
+  res.status(200).json({
+    success: true,
+    users: users,
+  });
+});
+
+// Get user details   =>   /api/v1/admin/user/:id
+exports.getUserDetails = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+  const user = await User.findById(req.params.id);
+  // console.log({user});
+
+  if (!user) {
+    return next(new ErrorHandler(`User does not found with id: ${req.params.id}`));
+  }
+
+  res.status(200).json({
+    success: true,
+    user: user,
+  });
+});

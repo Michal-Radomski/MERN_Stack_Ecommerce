@@ -45,11 +45,11 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  // user: {
-  //   type: mongoose.Schema.ObjectId,
-  //   ref: "User",
-  //   required: true,
-  // },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: true,
+  },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 });
