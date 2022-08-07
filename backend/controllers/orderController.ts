@@ -60,3 +60,20 @@ exports.myOrders = catchAsyncErrors(async (req: CustomRequest, res: Response) =>
     orders,
   });
 });
+
+// Get all orders - Admin  =>   /api/v1/admin/orders/
+exports.allOrders = catchAsyncErrors(async (_req: Request, res: Response) => {
+  const orders = await Order.find();
+
+  let totalAmount = 0;
+
+  orders.forEach((order: {totalPrice: number}) => {
+    totalAmount += order.totalPrice;
+  });
+
+  res.status(200).json({
+    success: true,
+    totalAmount,
+    orders,
+  });
+});
