@@ -7,6 +7,11 @@ const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
+import {User} from "../interfaces";
+
+interface CustomRequest extends Request {
+  user: User;
+}
 
 // Register a User -> /api/v1/register
 exports.registerUser = catchAsyncErrors(async (req: Request, res: Response, _next: NextFunction) => {
@@ -146,5 +151,16 @@ exports.logoutUser = catchAsyncErrors(async (_req: Request, res: Response) => {
   res.status(200).json({
     success: true,
     message: "Logged out",
+  });
+});
+
+// Get currently logged in user details   =>   /api/v1/me
+exports.getUserProfile = catchAsyncErrors(async (req: CustomRequest, res: Response) => {
+  const user = await User.findById(req.user.id);
+  // console.log({user});
+
+  res.status(200).json({
+    success: true,
+    user: user,
   });
 });
