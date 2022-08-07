@@ -229,3 +229,39 @@ exports.getUserDetails = catchAsyncErrors(async (req: Request, res: Response, ne
     user: user,
   });
 });
+
+// Update user profile   =>   /api/v1/admin/user/:id
+exports.updateUser = catchAsyncErrors(async (req: Request, res: Response) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  };
+
+  const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
+// Delete user   =>   /api/v1/admin/user/:id
+exports.deleteUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(new ErrorHandler(`User does not found with id: ${req.params.id}`));
+  }
+
+  //TODO: Remove avatar
+
+  await user.remove();
+
+  res.status(200).json({
+    success: true,
+  });
+});
