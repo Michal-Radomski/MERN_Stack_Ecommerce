@@ -50,6 +50,7 @@
   "devDependencies": {
     "@types/bootstrap": "^5.2.1",
     "@types/react-alert": "^7.0.2",
-    "@types/react-helmet": "^6.1.5"
+    "@types/react-helmet": "^6.1.5",
+    "@types/react-router-dom": "^5.3.3"
   }
 }

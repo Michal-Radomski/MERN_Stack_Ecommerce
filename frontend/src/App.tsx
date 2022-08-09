@@ -1,4 +1,5 @@
 import React from "react";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 
 import "./App.scss";
 import Header from "./components/layouts/Header";
@@ -8,9 +9,13 @@ import Home from "./components/Home";
 function App() {
   return (
     <React.Fragment>
-      <Header />
-      <Home />
-      <Footer />
+      <Router>
+        <Header />
+        <div className="container container-fluid">
+          <Route path="/" component={Home} exact={true} />
+        </div>
+        <Footer />
+      </Router>
     </React.Fragment>
   );
 }
