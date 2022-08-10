@@ -8,6 +8,7 @@ import Loader from "../layouts/Loader";
 import MetaData from "../layouts/MetaData";
 
 const ProductDetails = ({match}: {match: {params: {id: string}}}) => {
+  //  console.log({match});
   const dispatch: Dispatch = useDispatch();
   const alert = useAlert();
 
@@ -28,6 +29,7 @@ const ProductDetails = ({match}: {match: {params: {id: string}}}) => {
         <Loader />
       ) : (
         <React.Fragment>
+          <MetaData title={product.name} />
           <div className="row f-flex justify-content-around">
             <div className="col-12 col-lg-5 img-fluid" id="product_image">
               <Carousel pause="hover">
