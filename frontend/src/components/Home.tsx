@@ -20,6 +20,7 @@ const Home = ({match}: {match: {params: {keyword: string}}}): JSX.Element => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [price, setPrice] = React.useState<number[]>([1, 1000]);
   const [category, setCategory] = React.useState<string>("");
+  const [rating, setRating] = React.useState<number>(0);
 
   const categories = [
     "Electronics",
@@ -46,8 +47,8 @@ const Home = ({match}: {match: {params: {keyword: string}}}): JSX.Element => {
     if (error) {
       return alert.error(error);
     }
-    dispatch(getProducts(keyword, currentPage, price, category));
-  }, [alert, currentPage, dispatch, error, keyword, price, category]);
+    dispatch(getProducts(keyword, currentPage, price, category, rating));
+  }, [alert, currentPage, dispatch, error, keyword, price, category, rating]);
 
   function setCurrentPageNo(pageNumber: number) {
     setCurrentPage(pageNumber);
@@ -104,6 +105,31 @@ const Home = ({match}: {match: {params: {keyword: string}}}): JSX.Element => {
                               onClick={() => setCategory(category)}
                             >
                               {category}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <hr className="my-3" />
+                      <div className="mt-5">
+                        <h4 className="mb-3">Ratings</h4>
+                        <ul className="pl-0">
+                          {[5, 4, 3, 2, 1].map((star) => (
+                            <li
+                              style={{
+                                cursor: "pointer",
+                                listStyleType: "none",
+                              }}
+                              key={star}
+                              onClick={() => setRating(star)}
+                            >
+                              <div className="rating-outer">
+                                <div
+                                  className="rating-inner"
+                                  style={{
+                                    width: `${star * 20}%`,
+                                  }}
+                                ></div>
+                              </div>
                             </li>
                           ))}
                         </ul>

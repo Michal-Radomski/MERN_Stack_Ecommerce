@@ -12,15 +12,14 @@ import {
 
 // Get Products
 export const getProducts =
-  (keyword = "", currentPage = 1 as number, price: number[], category: string) =>
+  (keyword: string = "", currentPage = 1 as number, price: number[], category: string, rating: number = 0) =>
   async (dispatch: Dispatch) => {
     try {
       dispatch({type: ALL_PRODUCTS_REQUEST});
 
-      let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}`;
-
+      let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&ratings[gte]=${rating}`;
       if (category) {
-        link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}`;
+        link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&ratings[gte]=${rating}`;
       }
       // console.log({link});
 
