@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import MetaData from "./layouts/MetaData";
 import {getProducts} from "../redux/actions/productActions";
 import Product from "../components/product/Product";
+import Loader from "./layouts/Loader";
 
 const Home = () => {
   const dispatch: Dispatch = useDispatch();
@@ -17,7 +18,7 @@ const Home = () => {
   return (
     <React.Fragment>
       {loading ? (
-        <h1>Loading...</h1>
+        <Loader />
       ) : (
         <React.Fragment>
           <MetaData title={"Buy Best Products Online"} />
