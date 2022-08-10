@@ -19,8 +19,26 @@ const Home = ({match}: {match: {params: {keyword: string}}}): JSX.Element => {
 
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [price, setPrice] = React.useState<number[]>([1, 1000]);
+  const [category, setCategory] = React.useState<string>("");
 
-  const {loading, products, error, productsCount, resPerPage} = useSelector((state: State) => state.products);
+  const categories = [
+    "Electronics",
+    "Cameras",
+    "Laptops",
+    "Accessories",
+    "Headphones",
+    "Food",
+    "Books",
+    "Clothes/Shoes",
+    "Beauty/Health",
+    "Sports",
+    "Outdoor",
+    "Home",
+  ];
+
+  const {loading, products, error, productsCount, resPerPage, filteredProductsCount} = useSelector(
+    (state: State) => state.products
+  );
 
   const keyword: string = match.params.keyword;
 
@@ -28,12 +46,18 @@ const Home = ({match}: {match: {params: {keyword: string}}}): JSX.Element => {
     if (error) {
       return alert.error(error);
     }
-    dispatch(getProducts(keyword, currentPage, price));
-  }, [alert, currentPage, dispatch, error, keyword, price]);
+    dispatch(getProducts(keyword, currentPage, price, category));
+  }, [alert, currentPage, dispatch, error, keyword, price, category]);
 
   function setCurrentPageNo(pageNumber: number) {
     setCurrentPage(pageNumber);
   }
+
+  let count = productsCount;
+  if (keyword) {
+    count = filteredProductsCount;
+  }
+  // console.log({count});
 
   return (
     <React.Fragment>
@@ -66,9 +90,26 @@ const Home = ({match}: {match: {params: {keyword: string}}}): JSX.Element => {
                         value={price}
                         onChange={(price) => setPrice(price)}
                       />
+                      <hr className="my-5" />
+                      <div className="mt-5">
+                        <h4 className="mb-3">Categories</h4>
+                        <ul className="pl-0">
+                          {categories.map((category) => (
+                            <li
+                              style={{
+                                cursor: "pointer",
+                                listStyleType: "none",
+                              }}
+                              key={category}
+                              onClick={() => setCategory(category)}
+                            >
+                              {category}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   </div>
-
                   <div className="col-6 col-md-9">
                     <div className="row">
                       {products &&
@@ -103,7 +144,7 @@ const Home = ({match}: {match: {params: {keyword: string}}}): JSX.Element => {
             </div>
           </section>
           <div className="d-flex justify-content-center mt-5">
-            {resPerPage <= productsCount && (
+            {resPerPage <= count <= productsCount && (
               <Pagination
                 activePage={currentPage}
                 itemsCountPerPage={resPerPage}

@@ -23,15 +23,18 @@ exports.newProduct = catchAsyncErrors(async (req: CustomRequest, res: Response) 
 
 // Get All Products => /api/v1/products?keyword=apple
 exports.getProducts = catchAsyncErrors(async (req: Request, res: Response) => {
-  const {ip} = req;
+  // const {ip} = req;
   // console.log({ip});
 
   const resPerPage = 4;
   const productsCount = await Product.countDocuments();
 
-  const apiFeatures = new APIFeatures(Product.find(), req.query).search().filter().pagination(resPerPage);
-  // const products = await Product.find();
-  const products = await apiFeatures.query;
+  const apiFeatures = new APIFeatures(Product.find(), req.query).search().filter();
+  let products = await apiFeatures.query;
+  let filteredProductsCount = products.length;
+
+  apiFeatures.pagination(resPerPage);
+  products = await apiFeatures.query.clone();
 
   setTimeout(() => {
     res.status(200).json({
@@ -41,6 +44,7 @@ exports.getProducts = catchAsyncErrors(async (req: Request, res: Response) => {
       productsCount: productsCount,
       products: products,
       resPerPage: resPerPage,
+      filteredProductsCount: filteredProductsCount,
     });
   }, 500);
 });
