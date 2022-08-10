@@ -26,20 +26,22 @@ exports.getProducts = catchAsyncErrors(async (req: Request, res: Response) => {
   const {ip} = req;
   console.log({ip});
 
-  const resPerPage = 4;
+  const resPerPage = 8;
   const productsCount = await Product.countDocuments();
 
   const apiFeatures = new APIFeatures(Product.find(), req.query).search().filter().pagination(resPerPage);
   // const products = await Product.find();
   const products = await apiFeatures.query;
 
-  res.status(200).json({
-    success: true,
-    // message: "This route will show all products in database",
-    // count: products.length,
-    productsCount: productsCount,
-    products: products,
-  });
+  setTimeout(() => {
+    res.status(200).json({
+      success: true,
+      // message: "This route will show all products in database",
+      // count: products.length,
+      productsCount: productsCount,
+      products: products,
+    });
+  }, 500);
 });
 
 // Get Single Product Details   =>   /api/v1/product/:id

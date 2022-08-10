@@ -1,41 +1,45 @@
 import React from "react";
+import {useDispatch, useSelector} from "react-redux";
 
 import MetaData from "./layouts/MetaData";
+import {getProducts} from "../redux/actions/productActions";
+import Product from "../components/product/Product";
 
 const Home = () => {
+  const dispatch: Dispatch = useDispatch();
+
+  const {loading, products, error, productsCount} = useSelector((state: State) => state.products);
+
+  React.useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
+
   return (
     <React.Fragment>
-      <MetaData title={"Buy Best Products Online"} />
-      <h1 id="products_heading">Latest Products</h1>
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <React.Fragment>
+          <MetaData title={"Buy Best Products Online"} />
+          <h1 id="products_heading">Latest Products</h1>
 
-      <section id="products" className="container mt-5">
-        <div className="row">
-          <div className="col-sm-12 col-md-6 col-lg-3 my-3">
-            <div className="card p-3 rounded">
-              <img
-                className="card-img-top mx-auto"
-                src="https://m.media-amazon.com/images/I/617NtexaW2L._AC_UY218_.jpg"
-                alt=""
-              />
-              <div className="card-body d-flex flex-column">
-                <h5 className="card-title">
-                  <a href="www.google.com">128GB Solid Storage Memory card - SanDisk Ultra</a>
-                </h5>
-                <div className="ratings mt-auto">
-                  <div className="rating-outer">
-                    <div className="rating-inner"></div>
-                  </div>
-                  <span id="no_of_reviews">(5 Reviews)</span>
-                </div>
-                <p className="card-text">$45.67</p>
-                <a href="www.google.com" id="view_btn" className="btn btn-block">
-                  View Details
-                </a>
-              </div>
+          <section id="products" className="container mt-5">
+            <div className="row">
+              {products &&
+                products.map(
+                  (product: {
+                    name: string;
+                    numOfReviews: number;
+                    price: number;
+                    images: {url: string}[];
+                    _id: string;
+                    ratings: number;
+                  }) => <Product key={product._id} product={product} />
+                )}
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        </React.Fragment>
+      )}
     </React.Fragment>
   );
 };
