@@ -52,5 +52,6 @@
     "@types/react-alert": "^7.0.2",
     "@types/react-helmet": "^6.1.5",
     "@types/react-router-dom": "^5.3.3"
-  }
+  },
+  "proxy": "http://127.0.0.1:5000"
 }
