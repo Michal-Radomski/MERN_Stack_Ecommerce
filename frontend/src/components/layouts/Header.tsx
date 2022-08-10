@@ -1,5 +1,5 @@
 import React from "react";
-import {Route} from "react-router-dom";
+import {Link, Route} from "react-router-dom";
 
 import Search from "./Search";
 
@@ -9,7 +9,10 @@ const Header = (): JSX.Element => {
       <nav className="navbar row">
         <div className="col-12 col-md-3">
           <div className="navbar-brand">
-            <img src={process.env.PUBLIC_URL + "images/shopit_logo.png"} alt="logo" />
+            <Link to="/">
+              {/* <img src={process.env.PUBLIC_URL + "images/shopit_logo.png"} alt="logo" /> */}
+              <img src="images/shopit_logo.png" alt="logo" />
+            </Link>
           </div>
         </div>
         <div className="col-12 col-md-6 mt-2 mt-md-0">

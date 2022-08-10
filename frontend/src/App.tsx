@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import "./App.scss";
 import Header from "./components/layouts/Header";
@@ -15,10 +15,12 @@ function App(): JSX.Element {
       <Router>
         <Header />
         <div className="container container-fluid">
-          <Route path="/" component={Home} exact={true} />
-          <Route path="/search/:keyword" component={Home} />
-          <Route path="/product/:id" component={ProductDetails} />
-          <Route path="*" component={NotFound} />
+          <Switch>
+            <Route path="/" component={Home} exact={true} />
+            <Route path="/search/:keyword" component={Home} />
+            <Route path="/product/:id" component={ProductDetails} />
+            <Route path="*" component={NotFound} />
+          </Switch>
         </div>
         <Footer />
       </Router>
