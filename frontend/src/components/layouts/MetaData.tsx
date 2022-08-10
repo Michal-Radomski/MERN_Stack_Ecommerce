@@ -1,7 +1,7 @@
 import React from "react";
 import {Helmet} from "react-helmet";
 
-const MetaData = ({title}: {title: string}) => {
+const MetaData = ({title}: {title: string}): JSX.Element => {
   return (
     <React.Fragment>
       <Helmet>

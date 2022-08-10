@@ -7,7 +7,7 @@ import {getProductDetails, clearErrors} from "../../redux/actions/productActions
 import Loader from "../layouts/Loader";
 import MetaData from "../layouts/MetaData";
 
-const ProductDetails = ({match}: {match: {params: {id: string}}}) => {
+const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element => {
   //  console.log({match});
   const dispatch: Dispatch = useDispatch();
   const alert = useAlert();

@@ -8,7 +8,7 @@ import {getProducts} from "../redux/actions/productActions";
 import Product from "../components/product/Product";
 import Loader from "./layouts/Loader";
 
-const Home = () => {
+const Home = ({match}: {match: {params: {keyword: string}}}): JSX.Element => {
   const dispatch: Dispatch = useDispatch();
   const alert: Dispatch = useAlert();
 
@@ -16,12 +16,14 @@ const Home = () => {
 
   const {loading, products, error, productsCount, resPerPage} = useSelector((state: State) => state.products);
 
+  const keyword: string = match.params.keyword;
+
   React.useEffect(() => {
     if (error) {
       return alert.error(error);
     }
-    dispatch(getProducts(currentPage));
-  }, [alert, currentPage, dispatch, error]);
+    dispatch(getProducts(keyword, currentPage));
+  }, [alert, currentPage, dispatch, error, keyword]);
 
   function setCurrentPageNo(pageNumber: number) {
     setCurrentPage(pageNumber);

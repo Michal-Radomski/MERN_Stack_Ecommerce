@@ -12,7 +12,7 @@ const Product = ({
     _id: string;
     ratings: number;
   };
-}) => {
+}): JSX.Element => {
   return (
     <React.Fragment>
       <div className="col-sm-12 col-md-6 col-lg-3 my-3">

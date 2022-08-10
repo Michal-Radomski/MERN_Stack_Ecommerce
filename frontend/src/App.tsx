@@ -7,14 +7,15 @@ import Footer from "./components/layouts/Footer";
 import Home from "./components/Home";
 import ProductDetails from "./components/product/ProductDetails";
 
-function App() {
+function App(): JSX.Element {
   return (
     <React.Fragment>
       <Router>
         <Header />
         <div className="container container-fluid">
           <Route path="/" component={Home} exact={true} />
-          <Route path="/product/:id" component={ProductDetails} exact={true} />
+          <Route path="/search/:keyword" component={Home} />
+          <Route path="/product/:id" component={ProductDetails} />
         </div>
         <Footer />
       </Router>
