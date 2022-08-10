@@ -41,7 +41,7 @@ exports.getProducts = catchAsyncErrors(async (req: Request, res: Response) => {
       productsCount: productsCount,
       products: products,
     });
-  }, 1000);
+  }, 500);
 });
 
 // Get Single Product Details   =>   /api/v1/product/:id
