@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 import Loader from "../layouts/Loader";
 import MetaData from "../layouts/MetaData";
 
-const Profile = () => {
+const Profile = (): JSX.Element => {
   const {user, loading} = useSelector((state: State) => state.auth);
 
   return (
