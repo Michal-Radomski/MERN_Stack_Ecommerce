@@ -11,6 +11,7 @@ import Register from "./components/user/Register";
 
 import {loadUser} from "./redux/actions/userActions";
 import store from "./redux/store";
+import Profile from "./components/user/Profile";
 
 const NotFound = (): JSX.Element => <h1 style={{textAlign: "center", marginTop: "80px"}}>Page Not Found</h1>;
 
@@ -30,6 +31,7 @@ function App(): JSX.Element {
             <Route path="/product/:id" component={ProductDetails} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="/me" component={Profile} />
             <Route path="*" component={NotFound} />
           </Switch>
         </div>
