@@ -7,6 +7,7 @@ import Footer from "./components/layouts/Footer";
 import Home from "./components/Home";
 import ProductDetails from "./components/product/ProductDetails";
 import Login from "./components/user/Login";
+import Register from "./components/user/Register";
 
 const NotFound = (): JSX.Element => <h1 style={{textAlign: "center", marginTop: "80px"}}>Page Not Found</h1>;
 
@@ -21,6 +22,7 @@ function App(): JSX.Element {
             <Route path="/search/:keyword" component={Home} />
             <Route path="/product/:id" component={ProductDetails} />
             <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
             <Route path="*" component={NotFound} />
           </Switch>
         </div>

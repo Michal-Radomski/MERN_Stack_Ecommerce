@@ -16,13 +16,15 @@ interface CustomRequest extends Request {
 
 // Register a User -> /api/v1/register
 exports.registerUser = catchAsyncErrors(async (req: Request, res: Response, _next: NextFunction) => {
-  const {name, email, password} = req.body;
-
   const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
     folder: "avatars",
     width: 150,
     crop: "scale",
+    fetch_format: "auto",
   });
+  // await console.log({result});
+
+  const {name, email, password} = req.body;
 
   const user = await User.create({
     name: name,
@@ -33,6 +35,7 @@ exports.registerUser = catchAsyncErrors(async (req: Request, res: Response, _nex
       url: result.secure_url,
     },
   });
+  // await console.log({user});
 
   // const token = user.getJwtToken();
 
@@ -55,6 +58,7 @@ exports.loginUser = catchAsyncErrors(async (req: Request, res: Response, next: N
 
   // Finding user in database
   const user = await User.findOne({email: email}).select("+password");
+  // console.log({user});
 
   if (!user) {
     return next(new ErrorHandler("Invalid Email or Password", 401));
