@@ -23,10 +23,10 @@ const Register = ({history}: {history: History}): JSX.Element => {
   // console.log({user});
 
   const [avatar, setAvatar] = React.useState<any>(
-    "https://res.cloudinary.com/michas/image/upload/v1660234975/avatars/default_avatar_cuewwf.jpg"
+    "https://res.cloudinary.com/michas/image/upload/v1660235149/avatars/wnnnskfwz2ey1qernz3g.png"
   );
   const [avatarPreview, setAvatarPreview] = React.useState<any>(
-    "https://res.cloudinary.com/michas/image/upload/v1660234975/avatars/default_avatar_cuewwf.jpg"
+    "https://res.cloudinary.com/michas/image/upload/v1660235149/avatars/wnnnskfwz2ey1qernz3g.png"
   );
 
   // console.log({avatar});

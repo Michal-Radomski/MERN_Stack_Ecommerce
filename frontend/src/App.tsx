@@ -9,9 +9,16 @@ import ProductDetails from "./components/product/ProductDetails";
 import Login from "./components/user/Login";
 import Register from "./components/user/Register";
 
+import {loadUser} from "./redux/actions/userActions";
+import store from "./redux/store";
+
 const NotFound = (): JSX.Element => <h1 style={{textAlign: "center", marginTop: "80px"}}>Page Not Found</h1>;
 
 function App(): JSX.Element {
+  React.useEffect(() => {
+    store.dispatch(loadUser() as Dispatch);
+  }, []);
+
   return (
     <React.Fragment>
       <Router>
