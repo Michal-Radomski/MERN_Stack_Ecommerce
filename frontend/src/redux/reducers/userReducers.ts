@@ -11,6 +11,10 @@ import {
   LOAD_USER_FAIL,
   LOGOUT_SUCCESS,
   LOGOUT_FAIL,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
+  UPDATE_PROFILE_RESET,
 } from "../constants/userConstants";
 
 export const authReducer = (state: State = {user: {}}, action: Dispatch) => {
@@ -62,6 +66,44 @@ export const authReducer = (state: State = {user: {}}, action: Dispatch) => {
       return {
         ...state,
         error: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const userReducer = (state = {}, action: Dispatch) => {
+  switch (action.type) {
+    case UPDATE_PROFILE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdated: action.payload,
+      };
+
+    case UPDATE_PROFILE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+    case UPDATE_PROFILE_RESET:
+      return {
+        ...state,
+        isUpdated: false,
       };
 
     default:
