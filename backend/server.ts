@@ -1,5 +1,6 @@
 export {};
 const dotenv = require("dotenv");
+const cloudinary = require("cloudinary");
 
 const app = require("./app");
 const connectDataBase = require("./config/database");
@@ -18,6 +19,13 @@ const port = (process.env.PORT || 5000) as number;
 
 // Connect to the DB
 connectDataBase();
+
+// Setting up Cloudinary Configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const server = app.listen(port, () => {
   console.log(`Server is listening at http://localhost:${port} in ${process.env.NODE_ENV} mode`);
