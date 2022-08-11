@@ -1,6 +1,7 @@
 export {};
 import {Request, Response, NextFunction} from "express";
 const crypto = require("crypto");
+const cloudinary = require("cloudinary");
 
 const User = require("../models/user");
 const ErrorHandler = require("../utils/errorHandler");
@@ -17,13 +18,19 @@ interface CustomRequest extends Request {
 exports.registerUser = catchAsyncErrors(async (req: Request, res: Response, _next: NextFunction) => {
   const {name, email, password} = req.body;
 
+  const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    folder: "avatars",
+    width: 150,
+    crop: "scale",
+  });
+
   const user = await User.create({
     name: name,
     email: email,
     password: password,
     avatar: {
-      public_id: "michal123",
-      url: "https://www.test.com.pl/test1.png",
+      public_id: result.public_id,
+      url: result.secure_url,
     },
   });
 
