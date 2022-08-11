@@ -3,12 +3,14 @@ import reduxThunk from "redux-thunk";
 import {composeWithDevTools} from "@redux-devtools/extension";
 
 import {productDetailsReducer, productsReducer} from "./reducers/productReducer";
+import {authReducer} from "./reducers/userReducers";
 
-let initialState = {};
+const initialState: State = {};
 
 const reducer = combineReducers({
   products: productsReducer,
   productDetails: productDetailsReducer,
+  auth: authReducer,
 });
 
 const middleware = [reduxThunk];
