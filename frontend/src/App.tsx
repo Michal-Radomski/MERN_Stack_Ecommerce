@@ -19,6 +19,7 @@ import ForgotPassword from "./components/user/ForgotPassword";
 import NewPassword from "./components/user/NewPassword";
 import Cart from "./components/cart/Cart";
 import Shipping from "./components/cart/Shipping";
+import ConfirmOrder from "./components/cart/ConfirmOrder";
 
 const NotFound = (): JSX.Element => <h1 style={{textAlign: "center", marginTop: "80px"}}>Page Not Found</h1>;
 
@@ -45,6 +46,7 @@ function App(): JSX.Element {
             <ProtectedRoute path="/me/update" component={UpdateProfile} exact={true} />
             <ProtectedRoute path="/password/update" component={UpdatePassword} exact={true} />
             <ProtectedRoute path="/shipping" component={Shipping} exact={true} />
+            <ProtectedRoute path="/order/confirm" component={ConfirmOrder} exact={true} />
             <Route path="*" component={NotFound} />
           </Switch>
         </div>

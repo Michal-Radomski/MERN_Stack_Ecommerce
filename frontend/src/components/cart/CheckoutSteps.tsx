@@ -18,9 +18,11 @@ const CheckoutSteps = ({
       <div className="checkout-progress d-flex justify-content-center mt-5">
         {shipping ? (
           <Link to="/shipping" className="float-right">
-            <div className="triangle2-active"></div>
-            <div className="step active-step">Shipping</div>
-            <div className="triangle-active"></div>
+            <div className="triangle2-active" style={{cursor: "pointer"}}></div>
+            <div className="step active-step" style={{cursor: "pointer"}}>
+              Shipping
+            </div>
+            <div className="triangle-active" style={{cursor: "pointer"}}></div>
           </Link>
         ) : (
           <Link to="#!" style={{pointerEvents: "none"}}>
@@ -32,9 +34,11 @@ const CheckoutSteps = ({
 
         {confirmOrder ? (
           <Link to="/order/confirm" className="float-right">
-            <div className="triangle2-active"></div>
-            <div className="step active-step">Confirm Order</div>
-            <div className="triangle-active"></div>
+            <div className="triangle2-active" style={{cursor: "pointer"}}></div>
+            <div className="step active-step" style={{cursor: "pointer"}}>
+              Confirm Order
+            </div>
+            <div className="triangle-active" style={{cursor: "pointer"}}></div>
           </Link>
         ) : (
           <Link to="#!" style={{pointerEvents: "none"}}>
@@ -46,9 +50,11 @@ const CheckoutSteps = ({
 
         {payment ? (
           <Link to="/payment" className="float-right">
-            <div className="triangle2-active"></div>
-            <div className="step active-step">Payment</div>
-            <div className="triangle-active"></div>
+            <div className="triangle2-active" style={{cursor: "pointer"}}></div>
+            <div className="step active-step" style={{cursor: "pointer"}}>
+              Payment
+            </div>
+            <div className="triangle-active" style={{cursor: "pointer"}}></div>
           </Link>
         ) : (
           <Link to="#!" style={{pointerEvents: "none"}}>
