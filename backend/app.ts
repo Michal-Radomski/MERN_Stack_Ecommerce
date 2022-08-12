@@ -2,8 +2,12 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
+const dotenv = require("dotenv");
 
 const errorMiddleware = require("./middlewares/errors");
+
+// Setting Up Config File
+dotenv.config({path: "./config/config.env"});
 
 const app = express();
 

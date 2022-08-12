@@ -2,6 +2,10 @@ import React from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import axios from "axios";
 
+// Payment
+import {Elements} from "@stripe/react-stripe-js";
+import {loadStripe} from "@stripe/stripe-js";
+
 import "./App.scss";
 import Header from "./components/layouts/Header";
 import Footer from "./components/layouts/Footer";
@@ -21,6 +25,8 @@ import NewPassword from "./components/user/NewPassword";
 import Cart from "./components/cart/Cart";
 import Shipping from "./components/cart/Shipping";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
+import Payment from "./components/cart/Payment";
+import OrderSuccess from "./components/cart/OrderSuccess";
 
 const NotFound = (): JSX.Element => <h1 style={{textAlign: "center", marginTop: "80px"}}>Page Not Found</h1>;
 
@@ -33,6 +39,7 @@ function App(): JSX.Element {
 
     async function getStripApiKey() {
       const {data} = await axios.get("/api/v1/stripeapi");
+      // console.log({data});
       setStripeApiKey(data.stripeApiKey);
     }
     getStripApiKey();
@@ -57,6 +64,12 @@ function App(): JSX.Element {
             <ProtectedRoute path="/password/update" component={UpdatePassword} exact={true} />
             <ProtectedRoute path="/shipping" component={Shipping} exact={true} />
             <ProtectedRoute path="/order/confirm" component={ConfirmOrder} exact={true} />
+            <ProtectedRoute path="/success" component={OrderSuccess} exact={true} />
+            {stripeApiKey && (
+              <Elements stripe={loadStripe(stripeApiKey)}>
+                <ProtectedRoute path="/payment" component={Payment} />
+              </Elements>
+            )}
             <Route path="*" component={NotFound} />
           </Switch>
         </div>
