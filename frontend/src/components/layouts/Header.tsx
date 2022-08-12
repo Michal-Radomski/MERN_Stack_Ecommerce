@@ -11,6 +11,7 @@ const Header = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const {user, loading} = useSelector((state: State) => state.auth);
+  const {cartItems} = useSelector((state: State) => state.cart);
 
   const logoutHandler = () => {
     dispatch(logout() as Dispatch);
@@ -37,7 +38,7 @@ const Header = (): JSX.Element => {
               Cart
             </span>
             <span className="ml-1" id="cart_count">
-              2
+              {cartItems.length}
             </span>
           </Link>
 

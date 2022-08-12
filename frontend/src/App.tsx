@@ -17,6 +17,7 @@ import UpdateProfile from "./components/user/UpdateProfile";
 import UpdatePassword from "./components/user/UpdatePassword";
 import ForgotPassword from "./components/user/ForgotPassword";
 import NewPassword from "./components/user/NewPassword";
+import Cart from "./components/cart/Cart";
 
 const NotFound = (): JSX.Element => <h1 style={{textAlign: "center", marginTop: "80px"}}>Page Not Found</h1>;
 
@@ -32,6 +33,7 @@ function App(): JSX.Element {
         <div className="container container-fluid">
           <Switch>
             <Route path="/" component={Home} exact={true} />
+            <Route path="/cart" component={Cart} exact={true} />
             <Route path="/search/:keyword" component={Home} />
             <Route path="/product/:id" component={ProductDetails} />
             <Route path="/login" component={Login} />
