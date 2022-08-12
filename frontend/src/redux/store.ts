@@ -5,7 +5,7 @@ import {composeWithDevTools} from "@redux-devtools/extension";
 import {productDetailsReducer, productsReducer} from "./reducers/productReducer";
 import {authReducer, forgotPasswordReducer, userReducer} from "./reducers/userReducers";
 import {cartReducer} from "./reducers/cartReducers";
-import {newOrderReducer} from "./reducers/orderReducers";
+import {newOrderReducer, myOrdersReducer} from "./reducers/orderReducers";
 
 const initialState: State = {
   cart: {
@@ -22,6 +22,7 @@ const reducer = combineReducers({
   forgotPassword: forgotPasswordReducer,
   cart: cartReducer,
   newOrder: newOrderReducer,
+  myOrdersReducer: myOrdersReducer,
 });
 
 const middleware = [reduxThunk];

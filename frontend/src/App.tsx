@@ -67,7 +67,7 @@ function App(): JSX.Element {
             <ProtectedRoute path="/success" component={OrderSuccess} exact={true} />
             {stripeApiKey && (
               <Elements stripe={loadStripe(stripeApiKey)}>
-                <ProtectedRoute path="/payment" component={Payment} />
+                <ProtectedRoute path="/payment" component={Payment} exact={true} />
               </Elements>
             )}
             <Route path="*" component={NotFound} />
