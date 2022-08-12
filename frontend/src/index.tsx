@@ -9,7 +9,7 @@ import store from "./redux/store";
 
 const options = {
   timeout: 5000,
-  position: positions.BOTTOM_CENTER,
+  position: positions.MIDDLE_RIGHT,
   transition: transitions.SCALE,
 };
 
