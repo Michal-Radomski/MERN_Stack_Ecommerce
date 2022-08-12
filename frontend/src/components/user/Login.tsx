@@ -2,13 +2,13 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {useAlert} from "react-alert";
 import {useDispatch, useSelector} from "react-redux";
-import {History} from "history";
+import {History, Location} from "history";
 
 import Loader from "../layouts/Loader";
 import MetaData from "../layouts/MetaData";
 import {login, clearErrors} from "../../redux/actions/userActions";
 
-const Login = ({history}: {history: History}): JSX.Element => {
+const Login = ({history, location}: {history: History; location: Location}): JSX.Element => {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
 
@@ -17,15 +17,18 @@ const Login = ({history}: {history: History}): JSX.Element => {
 
   const {isAuthenticated, error, loading} = useSelector((state: State) => state.auth);
 
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
   React.useEffect(() => {
     if (isAuthenticated) {
-      history.push("/");
+      // history.push("/");
+      history.push(redirect);
     }
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
-  }, [alert, dispatch, error, history, isAuthenticated]);
+  }, [alert, dispatch, error, history, isAuthenticated, redirect]);
 
   const submitHandler = (event: React.SyntheticEvent) => {
     event.preventDefault();

@@ -9,6 +9,7 @@ import {cartReducer} from "./reducers/cartReducers";
 const initialState: State = {
   cart: {
     cartItems: localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems") as string) : [],
+    shippingInfo: localStorage.getItem("shippingInfo") ? JSON.parse(localStorage.getItem("shippingInfo") as string) : {},
   },
 };
 
