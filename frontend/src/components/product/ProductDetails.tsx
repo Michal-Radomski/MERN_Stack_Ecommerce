@@ -14,6 +14,8 @@ const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element =
 
   const {loading, error, product} = useSelector((state: State) => state.productDetails);
 
+  const [quantity, setQuantity] = React.useState<number>(1);
+
   React.useEffect(() => {
     dispatch(getProductDetails(match.params.id));
 
@@ -22,6 +24,24 @@ const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element =
       dispatch(clearErrors());
     }
   }, [alert, dispatch, error, match.params.id]);
+
+  const increaseQty = () => {
+    const count = document.querySelector(".count") as HTMLInputElement;
+
+    if (count?.valueAsNumber >= product.stock) return null;
+
+    const qty = count.valueAsNumber + 1;
+    setQuantity(qty);
+  };
+
+  const decreaseQty = () => {
+    const count = document.querySelector(".count") as HTMLInputElement;
+
+    if (count.valueAsNumber <= 1) return null;
+
+    const qty = count.valueAsNumber - 1;
+    setQuantity(qty);
+  };
 
   return (
     <React.Fragment>
@@ -53,9 +73,19 @@ const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element =
               <hr />
               <p id="product_price">${product.price}</p>
               <div className="stockCounter d-inline">
-                <span className="btn btn-danger minus">-</span>
-                <input type="number" className="form-control count d-inline" value="1" readOnly />
-                <span className="btn btn-primary plus">+</span>
+                <span className="btn btn-danger minus" onClick={decreaseQty}>
+                  -
+                </span>
+                <input
+                  type="number"
+                  className="form-control count d-inline noArrows"
+                  value={quantity}
+                  readOnly={true}
+                  style={{width: "5rem"}}
+                />
+                <span className="btn btn-primary plus" onClick={increaseQty}>
+                  +
+                </span>
               </div>
               <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4">
                 Add to Cart
@@ -65,6 +95,13 @@ const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element =
                 Status:{" "}
                 <span id="stock_status" className={product.stock > 0 ? "greenColor" : "redColor"}>
                   {product.stock > 0 ? "In Stock" : "Out of Stock"}
+                </span>
+                <span
+                  id="stock_status"
+                  className={product.stock > 1 ? "greenColor" : "redColor"}
+                  style={product.stock === 1 ? {color: "orange"} : {color: ""}}
+                >
+                  (quantity: {product.stock})
                 </span>
               </p>
               <hr />
