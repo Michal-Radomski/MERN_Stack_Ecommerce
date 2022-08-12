@@ -193,3 +193,28 @@ export const forgotPassword = (email: FormData) => async (dispatch: Dispatch) =>
     });
   }
 };
+
+// Reset password
+export const resetPassword = (token: string, passwords: FormData) => async (dispatch: Dispatch) => {
+  try {
+    dispatch({type: NEW_PASSWORD_REQUEST});
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const {data} = await axios.put(`/api/v1/password/reset/${token}`, passwords, config);
+
+    dispatch({
+      type: NEW_PASSWORD_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: NEW_PASSWORD_FAIL,
+      payload: (error as CustomError).response.data.message,
+    });
+  }
+};
