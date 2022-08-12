@@ -7,3 +7,12 @@ type Fetch = typeof store.fetch;
 interface CustomError extends Error {
   response: {data: {message: string}};
 }
+
+interface ItemInterface {
+  image: string;
+  name: string;
+  price: number;
+  product: string;
+  quantity: number;
+  stock: number;
+}

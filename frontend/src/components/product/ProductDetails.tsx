@@ -6,6 +6,7 @@ import {Carousel} from "react-bootstrap";
 import {getProductDetails, clearErrors} from "../../redux/actions/productActions";
 import Loader from "../layouts/Loader";
 import MetaData from "../layouts/MetaData";
+import {addItemToCart} from "../../redux/actions/cartActions";
 
 const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element => {
   //  console.log({match});
@@ -41,6 +42,11 @@ const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element =
 
     const qty = count.valueAsNumber - 1;
     setQuantity(qty);
+  };
+
+  const addToCart = () => {
+    dispatch(addItemToCart(match.params.id, quantity));
+    alert.success("Item Added to Cart");
   };
 
   return (
@@ -87,7 +93,13 @@ const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element =
                   +
                 </span>
               </div>
-              <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4">
+              <button
+                type="button"
+                id="cart_btn"
+                className="btn btn-primary d-inline ml-4"
+                disabled={product.stock === 0}
+                onClick={addToCart}
+              >
                 Add to Cart
               </button>
               <hr />
