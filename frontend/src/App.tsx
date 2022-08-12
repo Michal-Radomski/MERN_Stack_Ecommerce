@@ -1,5 +1,6 @@
 import React from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import axios from "axios";
 
 import "./App.scss";
 import Header from "./components/layouts/Header";
@@ -24,8 +25,17 @@ import ConfirmOrder from "./components/cart/ConfirmOrder";
 const NotFound = (): JSX.Element => <h1 style={{textAlign: "center", marginTop: "80px"}}>Page Not Found</h1>;
 
 function App(): JSX.Element {
+  const [stripeApiKey, setStripeApiKey] = React.useState<string>("");
+  // console.log({stripeApiKey});
+
   React.useEffect(() => {
     store.dispatch(loadUser() as Dispatch);
+
+    async function getStripApiKey() {
+      const {data} = await axios.get("/api/v1/stripeapi");
+      setStripeApiKey(data.stripeApiKey);
+    }
+    getStripApiKey();
   }, []);
 
   return (
