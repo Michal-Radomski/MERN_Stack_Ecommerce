@@ -22,7 +22,7 @@ const reducer = combineReducers({
   forgotPassword: forgotPasswordReducer,
   cart: cartReducer,
   newOrder: newOrderReducer,
-  myOrdersReducer: myOrdersReducer,
+  myOrders: myOrdersReducer,
 });
 
 const middleware = [reduxThunk];

@@ -16,3 +16,10 @@ interface ItemInterface {
   quantity: number;
   stock: number;
 }
+
+interface Order {
+  orderStatus: string;
+  totalPrice: number;
+  orderItems: string[];
+  _id: string;
+}
