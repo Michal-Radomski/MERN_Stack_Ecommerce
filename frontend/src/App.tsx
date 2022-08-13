@@ -62,31 +62,31 @@ function App(): JSX.Element {
     <React.Fragment>
       <Router>
         <Header />
+        <ProtectedRoute path="/dashboard" component={Dashboard} exact={true} isAdmin={true} />
+        <ProtectedRoute path="/admin/products" component={ProductsList} exact={true} isAdmin={true} />
         <div className="container container-fluid">
+          <Route path="/" component={Home} exact={true} />
+          <Route path="/cart" component={Cart} exact={true} />
+          <Route path="/search/:keyword" component={Home} />
+          <Route path="/product/:id" component={ProductDetails} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/password/forgot" component={ForgotPassword} />
+          <Route path="/password/reset/:token" component={NewPassword} />
+          <ProtectedRoute path="/me" component={Profile} exact={true} />
+          <ProtectedRoute path="/me/update" component={UpdateProfile} exact={true} />
+          <ProtectedRoute path="/password/update" component={UpdatePassword} exact={true} />
+          <ProtectedRoute path="/shipping" component={Shipping} exact={true} />
+          <ProtectedRoute path="/order/confirm" component={ConfirmOrder} exact={true} />
+          <ProtectedRoute path="/success" component={OrderSuccess} exact={true} />
+          <ProtectedRoute path="/orders/me" component={ListOrders} exact={true} />
+          <ProtectedRoute path="/order/:id" component={OrderDetails} exact={true} />
+          {stripeApiKey && (
+            <Elements stripe={loadStripe(stripeApiKey)}>
+              <ProtectedRoute path="/payment" component={Payment} exact={true} />
+            </Elements>
+          )}
           <Switch>
-            <Route path="/" component={Home} exact={true} />
-            <Route path="/cart" component={Cart} exact={true} />
-            <Route path="/search/:keyword" component={Home} />
-            <Route path="/product/:id" component={ProductDetails} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/password/forgot" component={ForgotPassword} />
-            <Route path="/password/reset/:token" component={NewPassword} />
-            <ProtectedRoute path="/me" component={Profile} exact={true} />
-            <ProtectedRoute path="/me/update" component={UpdateProfile} exact={true} />
-            <ProtectedRoute path="/password/update" component={UpdatePassword} exact={true} />
-            <ProtectedRoute path="/shipping" component={Shipping} exact={true} />
-            <ProtectedRoute path="/order/confirm" component={ConfirmOrder} exact={true} />
-            <ProtectedRoute path="/success" component={OrderSuccess} exact={true} />
-            <ProtectedRoute path="/orders/me" component={ListOrders} exact={true} />
-            <ProtectedRoute path="/order/:id" component={OrderDetails} exact={true} />
-            <ProtectedRoute path="/dashboard" component={Dashboard} exact={true} isAdmin={true} />
-            <ProtectedRoute path="/admin/products" component={ProductsList} exact={true} isAdmin={true} />
-            {stripeApiKey && (
-              <Elements stripe={loadStripe(stripeApiKey)}>
-                <ProtectedRoute path="/payment" component={Payment} exact={true} />
-              </Elements>
-            )}
             <Route path="*" component={NotFound} />
           </Switch>
         </div>

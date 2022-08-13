@@ -77,14 +77,14 @@ const ProductsList = ({history}: {history: History}): JSX.Element => {
         price: `$${product.price}`,
         stock: product.stock,
         actions: (
-          <div style={{display: "inline-block", width: "4.5rem"}}>
+          <React.Fragment>
             <Link to={`/admin/product/${product._id}`} className="btn btn-primary py-1 px-2">
               <i className="fa fa-pencil"></i>
             </Link>
             <button className="btn btn-danger py-1 px-2 ml-2" onClick={() => deleteProductHandler(product._id)}>
               <i className="fa fa-trash"></i>
             </button>
-          </div>
+          </React.Fragment>
         ),
       });
     });
