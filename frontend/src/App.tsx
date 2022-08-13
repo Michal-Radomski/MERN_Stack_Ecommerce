@@ -1,6 +1,7 @@
 import React from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import axios from "axios";
+import {useSelector} from "react-redux";
 
 // Payment
 import {Elements} from "@stripe/react-stripe-js";
@@ -35,15 +36,23 @@ function App(): JSX.Element {
   const [stripeApiKey, setStripeApiKey] = React.useState<string>("");
   // console.log({stripeApiKey});
 
+  const {user} = useSelector((state: State) => state.auth);
+  // console.log({user});
+  const user_ID = user?._id ?? null;
+  // console.log({user_ID});
+
+  async function getStripApiKey() {
+    const {data} = await axios.get("/api/v1/stripeapi");
+    // console.log({data});
+    await setStripeApiKey(data.stripeApiKey);
+  }
+
+  if (user_ID) {
+    getStripApiKey();
+  }
+
   React.useEffect(() => {
     store.dispatch(loadUser() as Dispatch);
-
-    async function getStripApiKey() {
-      const {data} = await axios.get("/api/v1/stripeapi");
-      // console.log({data});
-      setStripeApiKey(data.stripeApiKey);
-    }
-    getStripApiKey();
   }, []);
 
   return (
