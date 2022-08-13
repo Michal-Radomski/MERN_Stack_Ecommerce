@@ -32,6 +32,7 @@ import ListOrders from "./components/order/ListOrders";
 import OrderDetails from "./components/order/OrderDetails";
 import Dashboard from "./components/admin/Dashboard";
 import ProductsList from "./components/admin/ProductList";
+import NewProduct from "./components/admin/NewProduct";
 
 const NotFound = (): JSX.Element => <h1 style={{textAlign: "center", marginTop: "80px"}}>Page Not Found</h1>;
 
@@ -39,8 +40,10 @@ function App(): JSX.Element {
   const [stripeApiKey, setStripeApiKey] = React.useState<string>("");
   // console.log({stripeApiKey});
 
+  // const {user, loading} = useSelector((state: State) => state.auth);
   const {user} = useSelector((state: State) => state.auth);
   // console.log({user});
+
   const user_ID = user?._id ?? null;
   // console.log({user_ID});
 
@@ -64,6 +67,7 @@ function App(): JSX.Element {
         <Header />
         <ProtectedRoute path="/dashboard" component={Dashboard} exact={true} isAdmin={true} />
         <ProtectedRoute path="/admin/products" component={ProductsList} exact={true} isAdmin={true} />
+        <ProtectedRoute path="/admin/product" component={NewProduct} exact={true} isAdmin={true} />
         <div className="container container-fluid">
           <Route path="/" component={Home} exact={true} />
           <Route path="/cart" component={Cart} exact={true} />
@@ -91,6 +95,8 @@ function App(): JSX.Element {
           </Switch>
         </div>
         <Footer />
+        {/* //* If admin -> no <Footer /> component */}
+        {/* {!loading && user.role !== "admin" && <Footer />} */}
       </Router>
     </React.Fragment>
   );
