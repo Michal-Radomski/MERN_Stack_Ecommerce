@@ -11,6 +11,9 @@ import {
   NEW_REVIEW_REQUEST,
   NEW_REVIEW_SUCCESS,
   NEW_REVIEW_FAIL,
+  ADMIN_PRODUCTS_REQUEST,
+  ADMIN_PRODUCTS_SUCCESS,
+  ADMIN_PRODUCTS_FAIL,
 } from "../constants/productConstants";
 
 // Get Products
@@ -86,6 +89,25 @@ export const newReview = (reviewData: Object) => async (dispatch: Dispatch) => {
   } catch (error) {
     dispatch({
       type: NEW_REVIEW_FAIL,
+      payload: (error as CustomError).response.data.message,
+    });
+  }
+};
+
+// Get products by Admin
+export const getAdminProducts = () => async (dispatch: Dispatch) => {
+  try {
+    dispatch({type: ADMIN_PRODUCTS_REQUEST});
+
+    const {data} = await axios.get(`/api/v1/admin/products`);
+
+    dispatch({
+      type: ADMIN_PRODUCTS_SUCCESS,
+      payload: data.products,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_PRODUCTS_FAIL,
       payload: (error as CustomError).response.data.message,
     });
   }

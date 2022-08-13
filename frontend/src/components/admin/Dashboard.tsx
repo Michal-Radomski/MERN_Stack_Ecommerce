@@ -5,29 +5,29 @@ import {useDispatch, useSelector} from "react-redux";
 import MetaData from "../layouts/MetaData";
 import Loader from "../layouts/Loader";
 import Sidebar from "./Sidebar";
-// import { getAdminProducts } from '../../redux/actions/productActions'
+import {getAdminProducts} from "../../redux/actions/productActions";
 // import { allOrders } from '../../redux/actions/orderActions'
 // import { allUsers } from '../../redux/actions/userActions'
 
 const Dashboard = (): JSX.Element => {
-  // const dispatch: Dispatch = useDispatch();
+  const dispatch: Dispatch = useDispatch();
 
-  // const {products} = useSelector((state: State) => state.products);
+  const {products} = useSelector((state: State) => state.products);
   // const {users} = useSelector((state: State) => state.allUsers);
   // const {orders, totalAmount, loading} = useSelector((state: State) => state.allOrders);
 
-  // let outOfStock = 0;
-  // products.forEach((product: {stock: number}) => {
-  //   if (product.stock === 0) {
-  //     outOfStock += 1;
-  //   }
-  // });
+  let outOfStock = 0;
+  products.forEach((product: {stock: number}) => {
+    if (product.stock === 0) {
+      outOfStock += 1;
+    }
+  });
 
-  // React.useEffect(() => {
-  // dispatch(getAdminProducts());
-  // dispatch(allOrders());
-  // dispatch(allUsers());
-  // }, [dispatch]);
+  React.useEffect(() => {
+    dispatch(getAdminProducts());
+    // dispatch(allOrders());
+    // dispatch(allUsers());
+  }, [dispatch]);
 
   return (
     <React.Fragment>
@@ -64,7 +64,7 @@ const Dashboard = (): JSX.Element => {
                   <div className="card-body">
                     <div className="text-center card-font-size">
                       Products
-                      {/* <br /> <b>{products && products.length}</b> */}
+                      <br /> <b>{products && products.length}</b>
                     </div>
                   </div>
                   <Link className="card-footer text-white clearfix small z-1" to="/admin/products">
@@ -115,7 +115,7 @@ const Dashboard = (): JSX.Element => {
                   <div className="card-body">
                     <div className="text-center card-font-size">
                       Out of Stock
-                      {/* <br /> <b>{outOfStock}</b> */}
+                      <br /> <b>{outOfStock}</b>
                     </div>
                   </div>
                 </div>

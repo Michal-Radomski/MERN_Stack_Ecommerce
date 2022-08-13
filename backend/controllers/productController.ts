@@ -184,3 +184,13 @@ exports.deleteReview = catchAsyncErrors(async (req: Request, res: Response) => {
     success: true,
   });
 });
+
+// Get all products (Admin)  =>   /api/v1/admin/products
+exports.getAdminProducts = catchAsyncErrors(async (_req: Request, res: Response) => {
+  const products = await Product.find();
+
+  res.status(200).json({
+    success: true,
+    products,
+  });
+});
