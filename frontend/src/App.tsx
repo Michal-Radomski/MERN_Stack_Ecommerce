@@ -30,6 +30,7 @@ import Payment from "./components/cart/Payment";
 import OrderSuccess from "./components/cart/OrderSuccess";
 import ListOrders from "./components/order/ListOrders";
 import OrderDetails from "./components/order/OrderDetails";
+import Dashboard from "./components/admin/Dashboard";
 
 const NotFound = (): JSX.Element => <h1 style={{textAlign: "center", marginTop: "80px"}}>Page Not Found</h1>;
 
@@ -78,6 +79,7 @@ function App(): JSX.Element {
             <ProtectedRoute path="/success" component={OrderSuccess} exact={true} />
             <ProtectedRoute path="/orders/me" component={ListOrders} exact={true} />
             <ProtectedRoute path="/order/:id" component={OrderDetails} exact={true} />
+            <ProtectedRoute path="/dashboard" component={Dashboard} exact={true} isAdmin={true} />
             {stripeApiKey && (
               <Elements stripe={loadStripe(stripeApiKey)}>
                 <ProtectedRoute path="/payment" component={Payment} exact={true} />
