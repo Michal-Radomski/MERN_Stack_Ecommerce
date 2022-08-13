@@ -3,10 +3,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {useAlert} from "react-alert";
 import {Carousel} from "react-bootstrap";
 
-import {getProductDetails, clearErrors} from "../../redux/actions/productActions";
+import {getProductDetails, clearErrors, newReview} from "../../redux/actions/productActions";
 import Loader from "../layouts/Loader";
 import MetaData from "../layouts/MetaData";
 import {addItemToCart} from "../../redux/actions/cartActions";
+import {NEW_REVIEW_RESET} from "../../redux/constants/productConstants";
+
+interface CustomHTMLLIElement extends HTMLLIElement {
+  starValue: number;
+}
 
 const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element => {
   //  console.log({match});
@@ -14,8 +19,12 @@ const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element =
   const alert = useAlert();
 
   const {loading, error, product} = useSelector((state: State) => state.productDetails);
+  const {user} = useSelector((state: State) => state.auth);
+  const {error: reviewError, success} = useSelector((state: State) => state.newReview);
 
   const [quantity, setQuantity] = React.useState<number>(1);
+  const [rating, setRating] = React.useState<any>(0);
+  const [comment, setComment] = React.useState<string>("");
 
   React.useEffect(() => {
     dispatch(getProductDetails(match.params.id));
@@ -24,7 +33,17 @@ const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element =
       alert.error(error);
       dispatch(clearErrors());
     }
-  }, [alert, dispatch, error, match.params.id]);
+
+    if (reviewError) {
+      alert.error(reviewError);
+      dispatch(clearErrors());
+    }
+
+    if (success) {
+      alert.success("Review posted successfully");
+      dispatch({type: NEW_REVIEW_RESET});
+    }
+  }, [alert, dispatch, error, match.params.id, reviewError, success]);
 
   const increaseQty = () => {
     const count = document.querySelector(".count") as HTMLInputElement;
@@ -47,6 +66,51 @@ const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element =
   const addToCart = () => {
     dispatch(addItemToCart(match.params.id, quantity));
     alert.success("Item Added to Cart");
+  };
+
+  function setUserRatings() {
+    const stars = document.querySelectorAll(".star");
+    // console.log({stars});
+
+    stars.forEach((star, index) => {
+      (star as CustomHTMLLIElement).starValue = index + 1;
+
+      ["click", "mouseover", "mouseout"].forEach(function (event) {
+        star.addEventListener(event, showRatings);
+      });
+    });
+
+    function showRatings(this: any, event: {type: string}) {
+      stars.forEach((star, index) => {
+        if (event.type === "click") {
+          if (index < this.starValue) {
+            star.classList.add("orange");
+            // console.log("this.starValue:", this.starValue);
+            setRating(this.starValue);
+          } else {
+            star.classList.remove("orange");
+          }
+        }
+        if (event.type === "mouseover") {
+          if (index < this.starValue) {
+            star.classList.add("yellow");
+          } else {
+            star.classList.remove("yellow");
+          }
+        }
+        if (event.type === "mouseout") {
+          star.classList.remove("yellow");
+        }
+      });
+    }
+  }
+
+  const reviewHandler = () => {
+    const formData = new FormData();
+    formData.set("rating", rating);
+    formData.set("comment", comment);
+    formData.set("productId", match.params.id);
+    dispatch(newReview(formData));
   };
 
   return (
@@ -123,15 +187,23 @@ const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element =
               <p id="product_seller mb-3">
                 Sold by: <strong>{product.seller}</strong>
               </p>
-              <button
-                id="review_btn"
-                type="button"
-                className="btn btn-primary mt-4"
-                data-toggle="modal"
-                data-target="#ratingModal"
-              >
-                Submit Your Review
-              </button>
+              {user ? (
+                <button
+                  id="review_btn"
+                  type="button"
+                  className="btn btn-primary mt-4"
+                  data-toggle="modal"
+                  data-target="#ratingModal"
+                  onClick={setUserRatings}
+                >
+                  Add Your Review
+                </button>
+              ) : (
+                <div className="alert alert-danger mt-5" data-type="alert">
+                  Login to post your review.
+                </div>
+              )}
+
               <div className="row mt-2 mb-5">
                 <div className="rating w-50">
                   <div
@@ -170,9 +242,16 @@ const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element =
                               <i className="fa fa-star"></i>
                             </li>
                           </ul>
-                          <textarea name="review" id="review" className="form-control mt-3"></textarea>
+                          <textarea
+                            name="review"
+                            id="review"
+                            className="form-control mt-3"
+                            value={comment}
+                            onChange={(event) => setComment(event.target.value)}
+                          ></textarea>
                           <button
                             className="btn my-3 float-right review-btn px-4 text-white"
+                            onClick={reviewHandler}
                             data-dismiss="modal"
                             aria-label="Close"
                           >
