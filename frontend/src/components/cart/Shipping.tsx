@@ -19,7 +19,10 @@ const Shipping = ({history}: {history: History}): JSX.Element => {
   const [city, setCity] = React.useState<string>(shippingInfo.city);
   const [postalCode, setPostalCode] = React.useState<string>(shippingInfo.postalCode);
   const [phoneNo, setPhoneNo] = React.useState<string>(shippingInfo.phoneNo);
-  const [country, setCountry] = React.useState<string>(shippingInfo.country);
+  const [country, setCountry] = React.useState<string>(
+    shippingInfo.country ? shippingInfo.country : countriesList[178].name
+  );
+  // console.log({country});
 
   const dispatch: Dispatch = useDispatch();
 

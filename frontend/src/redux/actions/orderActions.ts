@@ -10,7 +10,7 @@ import {
   MY_ORDERS_FAIL,
 } from "../constants/orderConstants";
 
-export const createOrder = (order: Object) => async (dispatch: Dispatch) => {
+export const createOrder = (order: Object) => async (dispatch: Dispatch, getState: State) => {
   try {
     dispatch({type: CREATE_ORDER_REQUEST});
 

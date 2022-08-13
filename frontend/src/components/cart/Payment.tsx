@@ -8,6 +8,7 @@ import {History} from "history";
 import MetaData from "../layouts/MetaData";
 import CheckoutSteps from "./CheckoutSteps";
 import {createOrder, clearErrors} from "../../redux/actions/orderActions";
+import {clearCart} from "../../redux/actions/cartActions";
 
 const options = {
   style: {
@@ -109,6 +110,7 @@ const Payment = ({history}: {history: History}): JSX.Element => {
             status: result.paymentIntent.status,
           };
           dispatch(createOrder(order));
+          dispatch(clearCart());
           history.push("/success");
         } else {
           alert.error("There is some issue while payment processing");

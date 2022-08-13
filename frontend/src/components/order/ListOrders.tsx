@@ -13,7 +13,7 @@ const ListOrders = (): JSX.Element => {
   const dispatch: Dispatch = useDispatch();
 
   const {loading, error, orders} = useSelector((state: State) => state.myOrders);
-  console.log({orders});
+  // console.log({orders});
 
   React.useEffect(() => {
     dispatch(myOrders());
