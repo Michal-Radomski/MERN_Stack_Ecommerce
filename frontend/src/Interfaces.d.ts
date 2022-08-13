@@ -23,3 +23,10 @@ interface Order {
   orderItems: string[];
   _id: string;
 }
+
+interface Review {
+  rating: number;
+  name: string;
+  comment: string;
+  _id: string;
+}

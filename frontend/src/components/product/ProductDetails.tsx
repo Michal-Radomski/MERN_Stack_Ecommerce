@@ -8,6 +8,7 @@ import Loader from "../layouts/Loader";
 import MetaData from "../layouts/MetaData";
 import {addItemToCart} from "../../redux/actions/cartActions";
 import {NEW_REVIEW_RESET} from "../../redux/constants/productConstants";
+import ListReviews from "./ListReviews";
 
 interface CustomHTMLLIElement extends HTMLLIElement {
   starValue: number;
@@ -265,6 +266,8 @@ const ProductDetails = ({match}: {match: {params: {id: string}}}): JSX.Element =
               </div>
             </div>
           </div>
+
+          {product.reviews && product.reviews.length > 0 && <ListReviews reviews={product.reviews} />}
         </React.Fragment>
       )}
     </React.Fragment>
