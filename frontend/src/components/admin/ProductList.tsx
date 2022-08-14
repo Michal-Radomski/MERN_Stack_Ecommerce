@@ -9,15 +9,15 @@ import MetaData from "../layouts/MetaData";
 import Loader from "../layouts/Loader";
 import Sidebar from "./Sidebar";
 
-import {getAdminProducts, clearErrors} from "../../redux/actions/productActions";
-// import { DELETE_PRODUCT_RESET } from '../../redux/constants/productConstants'
+import {getAdminProducts, clearErrors, deleteProduct} from "../../redux/actions/productActions";
+import {DELETE_PRODUCT_RESET} from "../../redux/constants/productConstants";
 
 const ProductsList = ({history}: {history: History}): JSX.Element => {
   const alert = useAlert();
   const dispatch: Dispatch = useDispatch();
 
   const {loading, error, products} = useSelector((state: State) => state.products);
-  // const {error: deleteError, isDeleted} = useSelector((state: State) => state.product);
+  const {error: deleteError, isDeleted} = useSelector((state: State) => state.product);
 
   React.useEffect(() => {
     dispatch(getAdminProducts());
@@ -27,17 +27,17 @@ const ProductsList = ({history}: {history: History}): JSX.Element => {
       dispatch(clearErrors());
     }
 
-    // if (deleteError) {
-    //   alert.error(deleteError);
-    //   dispatch(clearErrors());
-    // }
+    if (deleteError) {
+      alert.error(deleteError);
+      dispatch(clearErrors());
+    }
 
-    // if (isDeleted) {
-    //   alert.success("Product deleted successfully");
-    //   history.push("/admin/products");
-    //   dispatch({ type: DELETE_PRODUCT_RESET })
-    // }
-  }, [dispatch, alert, error, history]);
+    if (isDeleted) {
+      alert.success("Product deleted successfully");
+      history.push("/admin/products");
+      dispatch({type: DELETE_PRODUCT_RESET});
+    }
+  }, [dispatch, alert, error, history, deleteError, isDeleted]);
 
   const setProducts = () => {
     const data = {
@@ -93,7 +93,7 @@ const ProductsList = ({history}: {history: History}): JSX.Element => {
   };
 
   const deleteProductHandler = (id: string) => {
-    // dispatch(deleteProduct(id))
+    dispatch(deleteProduct(id));
   };
 
   return (
