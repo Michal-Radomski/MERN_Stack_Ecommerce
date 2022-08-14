@@ -73,8 +73,12 @@ const UsersList = ({history}: {history: History}): JSX.Element => {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
-
+        role:
+          user.role && String(user.role).includes("admin") ? (
+            <p style={{color: "blue", fontWeight: "700"}}>{user.role}</p>
+          ) : (
+            <p style={{color: "", fontWeight: "400"}}>{user.role}</p>
+          ),
         actions: (
           <React.Fragment>
             <Link to={`/admin/user/${user._id}`} className="btn btn-primary py-1 px-2">

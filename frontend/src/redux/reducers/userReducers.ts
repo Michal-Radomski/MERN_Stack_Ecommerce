@@ -36,6 +36,9 @@ import {
   DELETE_USER_RESET,
   UPDATE_USER_FAIL,
   DELETE_USER_FAIL,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
+  USER_DETAILS_FAIL,
 } from "../constants/userConstants";
 
 export const authReducer = (state: State = {user: {}}, action: Dispatch) => {
@@ -214,6 +217,39 @@ export const allUsersReducer = (state = {users: []}, action: Dispatch) => {
       };
 
     case ALL_USERS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const userDetailsReducer = (state = {user: {}}, action: Dispatch) => {
+  switch (action.type) {
+    case USER_DETAILS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case USER_DETAILS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+      };
+
+    case USER_DETAILS_FAIL:
       return {
         ...state,
         loading: false,

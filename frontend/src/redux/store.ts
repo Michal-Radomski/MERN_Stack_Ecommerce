@@ -9,7 +9,7 @@ import {
   productReducer,
   productsReducer,
 } from "./reducers/productReducer";
-import {allUsersReducer, authReducer, forgotPasswordReducer, userReducer} from "./reducers/userReducers";
+import {allUsersReducer, authReducer, forgotPasswordReducer, userDetailsReducer, userReducer} from "./reducers/userReducers";
 import {cartReducer} from "./reducers/cartReducers";
 import {
   newOrderReducer,
@@ -42,6 +42,7 @@ const reducer = combineReducers({
   allOrders: allOrdersReducer,
   order: orderReducer,
   allUsers: allUsersReducer,
+  userDetails: userDetailsReducer,
 });
 
 const middleware = [reduxThunk];
