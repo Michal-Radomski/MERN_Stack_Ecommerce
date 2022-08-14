@@ -59,7 +59,7 @@ const Header = (): JSX.Element => {
               </Link>
               <div className="dropdown-menu" aria-labelledby="dropDownMenuButton">
                 {user && user.role === "admin" && (
-                  <Link className="dropdown-item" to="/dashboard">
+                  <Link className="dropdown-item" to="/dashboard" style={{color: "yellow", backgroundColor: "darkblue"}}>
                     Dashboard
                   </Link>
                 )}

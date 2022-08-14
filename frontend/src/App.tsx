@@ -36,6 +36,7 @@ import UpdateProduct from "./components/admin/UpdateProduct";
 import ProductList from "./components/admin/ProductList";
 import ProcessOrder from "./components/admin/ProcessOrder";
 import OrderList from "./components/admin/OrderList";
+import UsersList from "./components/admin/UsersList";
 
 const NotFound = (): JSX.Element => <h1 style={{textAlign: "center", marginTop: "80px"}}>Page Not Found</h1>;
 
@@ -76,6 +77,7 @@ function App(): JSX.Element {
             <ProtectedRoute path="/admin/product/:id" component={UpdateProduct} isAdmin={true} />
             <ProtectedRoute path="/admin/orders" component={OrderList} isAdmin={true} exact={true} />
             <ProtectedRoute path="/admin/order/:id" component={ProcessOrder} isAdmin={true} />
+            <ProtectedRoute path="/admin/users" component={UsersList} isAdmin={true} exact={true} />
             <Route path="/" component={Home} exact={true} />
             <Route path="/cart" component={Cart} exact={true} />
             <Route path="/search/:keyword" component={Home} />
