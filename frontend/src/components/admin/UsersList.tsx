@@ -8,15 +8,15 @@ import {History} from "history";
 import MetaData from "../layouts/MetaData";
 import Loader from "../layouts/Loader";
 import Sidebar from "./Sidebar";
-import {allUsers, clearErrors} from "../../redux/actions/userActions";
-// import { DELETE_USER_RESET } from '../../redux/constants/userConstants'
+import {allUsers, clearErrors, deleteUser} from "../../redux/actions/userActions";
+import {DELETE_USER_RESET} from "../../redux/constants/userConstants";
 
 const UsersList = ({history}: {history: History}): JSX.Element => {
   const alert = useAlert();
   const dispatch: Dispatch = useDispatch();
 
   const {loading, error, users} = useSelector((state: State) => state.allUsers);
-  // const {isDeleted} = useSelector((state: State) => state.user);
+  const {isDeleted} = useSelector((state: State) => state.user);
 
   React.useEffect(() => {
     dispatch(allUsers());
@@ -26,15 +26,15 @@ const UsersList = ({history}: {history: History}): JSX.Element => {
       dispatch(clearErrors());
     }
 
-    // if (isDeleted) {
-    //   alert.success("User deleted successfully");
-    //   history.push("/admin/users");
-    //   dispatch({type: DELETE_USER_RESET});
-    // }
-  }, [dispatch, alert, error, history]);
+    if (isDeleted) {
+      alert.success("User deleted successfully");
+      history.push("/admin/users");
+      dispatch({type: DELETE_USER_RESET});
+    }
+  }, [dispatch, alert, error, history, isDeleted]);
 
   const deleteUserHandler = (id: string) => {
-    // dispatch(deleteUser(id));
+    dispatch(deleteUser(id));
   };
 
   const setUsers = () => {
