@@ -12,8 +12,11 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-// Setting Up Config File
-dotenv.config({path: "./config/config.env"});
+// Setting up config file
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  require("dotenv").config({path: "./config/config.env"});
+}
+// dotenv.config({ path: 'backend/config/config.env' })
 
 const port = (process.env.PORT || 5000) as number;
 

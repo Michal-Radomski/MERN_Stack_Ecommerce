@@ -2,4 +2,6 @@
 
 Files created during the Udemy course: <https://www.udemy.com/course/mern-stack-ecommerce-site-using-react-redux-nodejs>
 
-To install frontend dependencies run: `npm i --legacy-peer-deps`
+If you use React v18, to install all the dependencies run the following command: `npm i --legacy-peer-deps`
+
+To see demo off the app click [here](https://mern-shop-it.herokuapp.com)

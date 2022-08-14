@@ -8,8 +8,11 @@ const path = require("path");
 
 const errorMiddleware = require("./middlewares/errors");
 
-// Setting Up Config File
-dotenv.config({path: "./config/config.env"});
+// Setting up config file
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  require("dotenv").config({path: "./config/config.env"});
+}
+// dotenv.config({ path: 'backend/config/config.env' })
 
 const app = express();
 
