@@ -5,10 +5,10 @@ import {History} from "history";
 
 import MetaData from "../layouts/MetaData";
 import Sidebar from "./Sidebar";
-import {newProduct, clearErrors} from "../../redux/actions/productActions";
-import {NEW_PRODUCT_RESET} from "../../redux/constants/productConstants";
+import {updateProduct, getProductDetails, clearErrors} from "../../redux/actions/productActions";
+import {UPDATE_PRODUCT_RESET} from "../../redux/constants/productConstants";
 
-const NewProduct = ({history}: {history: History}): JSX.Element => {
+const UpdateProduct = ({match, history}: {match: {params: {id: string}}; history: History}): JSX.Element => {
   const [name, setName] = React.useState<string>("");
   const [price, setPrice] = React.useState<any>(0);
   const [description, setDescription] = React.useState<string>("");
@@ -16,7 +16,13 @@ const NewProduct = ({history}: {history: History}): JSX.Element => {
   const [stock, setStock] = React.useState<any>(0);
   const [seller, setSeller] = React.useState<string>("");
   const [images, setImages] = React.useState<any[]>([]);
+
+  const [oldImages, setOldImages] = React.useState<any[]>([]);
   const [imagesPreview, setImagesPreview] = React.useState<any[]>([]);
+  // console.log({oldImages});
+  // console.log({imagesPreview});
+  // console.log({stock});
+  // console.log({price});
 
   const categories = [
     "Electronics",
@@ -36,20 +42,40 @@ const NewProduct = ({history}: {history: History}): JSX.Element => {
   const alert = useAlert();
   const dispatch: Dispatch = useDispatch();
 
-  const {loading, error, success} = useSelector((state: State) => state.newProduct);
+  const {error, product} = useSelector((state: State) => state.productDetails);
+  const {loading, error: updateError, isUpdated} = useSelector((state: State) => state.product);
+
+  const productId = match.params.id;
 
   React.useEffect(() => {
+    if (product && product._id !== productId) {
+      dispatch(getProductDetails(productId));
+    } else {
+      setName(product.name);
+      setPrice(product.price);
+      setDescription(product.description);
+      setCategory(product.category);
+      setSeller(product.seller);
+      setStock(product.stock);
+      setOldImages(product.images);
+    }
+
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
 
-    if (success) {
-      history.push("/admin/products");
-      alert.success("Product created successfully");
-      dispatch({type: NEW_PRODUCT_RESET});
+    if (updateError) {
+      alert.error(updateError);
+      dispatch(clearErrors());
     }
-  }, [dispatch, alert, error, success, history]);
+
+    if (isUpdated) {
+      history.push("/admin/products");
+      alert.success("Product updated successfully");
+      dispatch({type: UPDATE_PRODUCT_RESET});
+    }
+  }, [dispatch, alert, error, isUpdated, history, updateError, product, productId]);
 
   const submitHandler = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -62,11 +88,11 @@ const NewProduct = ({history}: {history: History}): JSX.Element => {
     formData.set("stock", stock);
     formData.set("seller", seller);
 
-    images.forEach((image) => {
+    images.forEach((image: string | Blob) => {
       formData.append("images", image);
     });
 
-    dispatch(newProduct(formData));
+    dispatch(updateProduct(product._id, formData));
   };
 
   const onChange = (event: any) => {
@@ -74,6 +100,7 @@ const NewProduct = ({history}: {history: History}): JSX.Element => {
 
     setImagesPreview([]);
     setImages([]);
+    setOldImages([]);
 
     files.forEach((file) => {
       const reader = new FileReader();
@@ -91,7 +118,7 @@ const NewProduct = ({history}: {history: History}): JSX.Element => {
 
   return (
     <React.Fragment>
-      <MetaData title={"New Product"} />
+      <MetaData title={"Update Product"} />
       <div className="row">
         <div className="col-12 col-md-2">
           <Sidebar />
@@ -101,7 +128,7 @@ const NewProduct = ({history}: {history: History}): JSX.Element => {
           <React.Fragment>
             <div className="wrapper my-5">
               <form className="shadow-lg" onSubmit={submitHandler} encType="multipart/form-data">
-                <h1 className="mb-4">New Product</h1>
+                <h1 className="mb-4">Update Product</h1>
 
                 <div className="form-group">
                   <label htmlFor="name_field">Name</label>
@@ -190,13 +217,18 @@ const NewProduct = ({history}: {history: History}): JSX.Element => {
                     </label>
                   </div>
 
+                  {oldImages &&
+                    oldImages.map((img) => (
+                      <img key={img} src={img.url} alt={img.url} className="mt-3 mr-2" width="55" height="52" />
+                    ))}
+
                   {imagesPreview.map((img) => (
                     <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
                   ))}
                 </div>
 
                 <button id="login_button" type="submit" className="btn btn-block py-3" disabled={loading ? true : false}>
-                  CREATE
+                  UPDATE
                 </button>
               </form>
             </div>
@@ -207,4 +239,4 @@ const NewProduct = ({history}: {history: History}): JSX.Element => {
   );
 };
 
-export default NewProduct;
+export default UpdateProduct;

@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
 import MetaData from "../layouts/MetaData";
-import Loader from "../layouts/Loader";
+// import Loader from "../layouts/Loader";
 import Sidebar from "./Sidebar";
 import {getAdminProducts} from "../../redux/actions/productActions";
 // import { allOrders } from '../../redux/actions/orderActions'
