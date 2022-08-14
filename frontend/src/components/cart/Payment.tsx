@@ -129,7 +129,22 @@ const Payment = ({history}: {history: History}): JSX.Element => {
 
       <CheckoutSteps shipping={true} confirmOrder={true} payment={true} />
 
-      <div className="row wrapper">
+      <div
+        style={{backgroundColor: "lightyellow", textAlign: "center", width: "34%", marginLeft: "33%", marginRight: "33%"}}
+      >
+        <h5>Type to Test:</h5>
+        <p style={{marginBottom: "6px"}}>Card Number: 4242424242424242</p>
+        <p style={{marginBottom: "6px"}}>CVC: Any 3 digits</p>
+        <p style={{marginBottom: "6px"}}>Date: Any future date</p>
+        <p style={{marginBottom: "6px"}}>
+          Link:{" "}
+          <a href="https://stripe.com/docs/testing?numbers-or-method-or-token=card-numbers" target="_blank" rel="noreferrer">
+            Stripe Docs
+          </a>
+        </p>
+      </div>
+
+      <div className="row wrapper" style={{marginTop: "40px"}}>
         <div className="col-10 col-lg-5">
           <form className="shadow-lg" onSubmit={submitHandler}>
             <h1 className="mb-4">Card Info</h1>
