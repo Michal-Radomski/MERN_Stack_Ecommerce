@@ -7,7 +7,9 @@ import {
   newReviewReducer,
   productDetailsReducer,
   productReducer,
+  productReviewsReducer,
   productsReducer,
+  reviewReducer,
 } from "./reducers/productReducer";
 import {allUsersReducer, authReducer, forgotPasswordReducer, userDetailsReducer, userReducer} from "./reducers/userReducers";
 import {cartReducer} from "./reducers/cartReducers";
@@ -43,6 +45,8 @@ const reducer = combineReducers({
   order: orderReducer,
   allUsers: allUsersReducer,
   userDetails: userDetailsReducer,
+  productReviews: productReviewsReducer,
+  review: reviewReducer,
 });
 
 const middleware = [reduxThunk];

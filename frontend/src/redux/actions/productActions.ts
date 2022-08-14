@@ -23,6 +23,12 @@ import {
   UPDATE_PRODUCT_REQUEST,
   UPDATE_PRODUCT_SUCCESS,
   UPDATE_PRODUCT_FAIL,
+  GET_REVIEWS_REQUEST,
+  GET_REVIEWS_SUCCESS,
+  GET_REVIEWS_FAIL,
+  DELETE_REVIEW_REQUEST,
+  DELETE_REVIEW_SUCCESS,
+  DELETE_REVIEW_FAIL,
 } from "../constants/productConstants";
 
 // Get Products
@@ -185,6 +191,46 @@ export const updateProduct = (id: string, productData: FormData) => async (dispa
   } catch (error) {
     dispatch({
       type: UPDATE_PRODUCT_FAIL,
+      payload: (error as CustomError).response.data.message,
+    });
+  }
+};
+
+// Get product reviews - Admin
+export const getProductReviews = (id: string) => async (dispatch: Dispatch) => {
+  try {
+    dispatch({type: GET_REVIEWS_REQUEST});
+
+    const {data} = await axios.get(`/api/v1/reviews?id=${id}`);
+
+    dispatch({
+      type: GET_REVIEWS_SUCCESS,
+      payload: data.reviews,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_REVIEWS_FAIL,
+      payload: (error as CustomError).response.data.message,
+    });
+  }
+};
+
+// Delete product review - Admin
+export const deleteReview = (id: string, productId: string) => async (dispatch: Dispatch) => {
+  try {
+    dispatch({type: DELETE_REVIEW_REQUEST});
+
+    const {data} = await axios.delete(`/api/v1/reviews?id=${id}&productId=${productId}`);
+
+    dispatch({
+      type: DELETE_REVIEW_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    // console.log((error as CustomError).response);
+
+    dispatch({
+      type: DELETE_REVIEW_FAIL,
       payload: (error as CustomError).response.data.message,
     });
   }
