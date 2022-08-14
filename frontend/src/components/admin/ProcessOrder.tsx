@@ -90,6 +90,7 @@ const ProcessOrder = ({match}: {match: {params: {id: string}}}): JSX.Element => 
                     className={
                       order.orderStatus && String(order.orderStatus).includes("Delivered") ? "greenColor" : "redColor"
                     }
+                    style={order.orderStatus && String(order.orderStatus) === "Shipped" ? {color: "orange"} : {color: ""}}
                   >
                     <b>{orderStatus}</b>
                   </p>

@@ -8,8 +8,8 @@ import {useDispatch, useSelector} from "react-redux";
 import MetaData from "../layouts/MetaData";
 import Loader from "../layouts/Loader";
 import Sidebar from "./Sidebar";
-import {allOrders, clearErrors} from "../../redux/actions/orderActions";
-// import {DELETE_ORDER_RESET} from "../../redux/constants/orderConstants";
+import {allOrders, clearErrors, deleteOrder} from "../../redux/actions/orderActions";
+import {DELETE_ORDER_RESET} from "../../redux/constants/orderConstants";
 
 const OrdersList = ({history}: {history: History}): JSX.Element => {
   const alert = useAlert();
@@ -29,12 +29,12 @@ const OrdersList = ({history}: {history: History}): JSX.Element => {
     if (isDeleted) {
       alert.success("Order deleted successfully");
       history.push("/admin/orders");
-      // dispatch({type: DELETE_ORDER_RESET});
+      dispatch({type: DELETE_ORDER_RESET});
     }
   }, [dispatch, alert, error, isDeleted, history]);
 
   const deleteOrderHandler = (id: string) => {
-    // dispatch(deleteOrder(id));
+    dispatch(deleteOrder(id));
   };
 
   const setOrders = () => {
@@ -76,6 +76,8 @@ const OrdersList = ({history}: {history: History}): JSX.Element => {
         status:
           order.orderStatus && String(order.orderStatus).includes("Delivered") ? (
             <p style={{color: "green"}}>{order.orderStatus}</p>
+          ) : order.orderStatus && String(order.orderStatus).includes("Shipped") ? (
+            <p style={{color: "orange"}}>{order.orderStatus}</p>
           ) : (
             <p style={{color: "red"}}>{order.orderStatus}</p>
           ),

@@ -66,10 +66,10 @@ const OrderDetails = ({match}: {match: {params: {id: string}}}): JSX.Element => 
               <h4 className="my-4">Order Status:</h4>
               <p
                 className={order.orderStatus && String(order.orderStatus).includes("Delivered") ? "greenColor" : "redColor"}
+                style={order.orderStatus && String(order.orderStatus) === "Shipped" ? {color: "orange"} : {color: ""}}
               >
                 <b>{orderStatus}</b>
               </p>
-
               <h4 className="my-4">Order Items:</h4>
 
               <hr />
