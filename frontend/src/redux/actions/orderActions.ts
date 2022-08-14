@@ -14,9 +14,12 @@ import {
   ALL_ORDERS_REQUEST,
   ALL_ORDERS_SUCCESS,
   ALL_ORDERS_FAIL,
+  UPDATE_ORDER_REQUEST,
+  UPDATE_ORDER_SUCCESS,
+  UPDATE_ORDER_FAIL,
 } from "../constants/orderConstants";
 
-export const createOrder = (order: Object) => async (dispatch: Dispatch, getState: State) => {
+export const createOrder = (order: Object) => async (dispatch: Dispatch, _getState: State) => {
   try {
     dispatch({type: CREATE_ORDER_REQUEST});
 
@@ -85,7 +88,7 @@ export const getOrderDetails = (id: string) => async (dispatch: Dispatch) => {
   }
 };
 
-// Get all orders - ADMIN
+// Get all orders - Admin
 export const allOrders = () => async (dispatch: Dispatch) => {
   try {
     dispatch({type: ALL_ORDERS_REQUEST});
@@ -99,6 +102,31 @@ export const allOrders = () => async (dispatch: Dispatch) => {
   } catch (error) {
     dispatch({
       type: ALL_ORDERS_FAIL,
+      payload: (error as CustomError).response.data.message,
+    });
+  }
+};
+
+// update order - Admin
+export const updateOrder = (id: string, orderData: FormData) => async (dispatch: Dispatch) => {
+  try {
+    dispatch({type: UPDATE_ORDER_REQUEST});
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const {data} = await axios.put(`/api/v1/admin/order/${id}`, orderData, config);
+
+    dispatch({
+      type: UPDATE_ORDER_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_ORDER_FAIL,
       payload: (error as CustomError).response.data.message,
     });
   }
