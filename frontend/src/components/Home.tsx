@@ -67,7 +67,9 @@ const Home = ({match}: {match: {params: {keyword: string}}}): JSX.Element => {
       ) : (
         <React.Fragment>
           <MetaData title={"Buy Best Products Online"} />
-          <h1 id="products_heading">Latest Products</h1>
+          <h1 id="products_heading" style={{textAlign: "center", marginTop: "40px"}}>
+            Latest Products
+          </h1>
 
           <section id="products" className="container mt-5">
             <div className="row">
