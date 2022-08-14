@@ -24,8 +24,7 @@ const Header = (): JSX.Element => {
         <div className="col-12 col-md-3">
           <div className="navbar-brand">
             <Link to="/">
-              {/* <img src={process.env.PUBLIC_URL + "images/shopit_logo.png"} alt="logo" /> */}
-              <img src="images/shopit_logo.png" alt="logo" />
+              <img src="/images/shopit_logo.png" alt="logo" />
             </Link>
           </div>
         </div>

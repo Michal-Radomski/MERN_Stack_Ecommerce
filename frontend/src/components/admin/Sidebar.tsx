@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 const Sidebar = (): JSX.Element => {
   return (
     <React.Fragment>
-      <div className="sidebar-wrapper">
+      <div className="sidebar-wrapper" style={{marginLeft: "-15px"}}>
         <nav id="sidebar">
           <ul className="list-unstyled components">
             <li>

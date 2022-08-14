@@ -11,6 +11,9 @@ import {
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
   ORDER_DETAILS_FAIL,
+  ALL_ORDERS_REQUEST,
+  ALL_ORDERS_SUCCESS,
+  ALL_ORDERS_FAIL,
 } from "../constants/orderConstants";
 
 export const createOrder = (order: Object) => async (dispatch: Dispatch, getState: State) => {
@@ -77,6 +80,25 @@ export const getOrderDetails = (id: string) => async (dispatch: Dispatch) => {
   } catch (error) {
     dispatch({
       type: ORDER_DETAILS_FAIL,
+      payload: (error as CustomError).response.data.message,
+    });
+  }
+};
+
+// Get all orders - ADMIN
+export const allOrders = () => async (dispatch: Dispatch) => {
+  try {
+    dispatch({type: ALL_ORDERS_REQUEST});
+
+    const {data} = await axios.get(`/api/v1/admin/orders`);
+
+    dispatch({
+      type: ALL_ORDERS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ALL_ORDERS_FAIL,
       payload: (error as CustomError).response.data.message,
     });
   }
